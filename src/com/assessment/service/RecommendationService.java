@@ -5,7 +5,7 @@ import com.assessment.exception.ApplicationException;
 
 import java.util.List;
 
-public interface Recommendation {
+public interface RecommendationService {
 
     List<User> findMatch(User user,int top) throws ApplicationException;
 }

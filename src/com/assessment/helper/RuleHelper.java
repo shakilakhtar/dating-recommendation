@@ -31,12 +31,14 @@ public class RuleHelper {
                 finalResults.addAll(genderFilter);
             }
 
+        } else {
+            finalResults.addAll(filteredUsers);
         }
         return finalResults;
     }
 
     public List<User> applyGenderRule(User u, List<User> users) {
-        return users.stream().filter(gender -> gender.getGender().equalsIgnoreCase(u.getGender()))
+        return users.stream().filter(gender -> !gender.getGender().equalsIgnoreCase(u.getGender()))
                 .collect(Collectors.toList());
     }
 

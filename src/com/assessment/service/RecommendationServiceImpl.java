@@ -7,13 +7,14 @@ import com.assessment.repository.UserRepository;
 import com.assessment.repository.UserRepositoryImpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class RecommendationImpl implements Recommendation {
+public class RecommendationServiceImpl implements RecommendationService {
 
     private RuleHelper ruleHelper;
     private UserRepository userRepository;
 
-    public RecommendationImpl() {
+    public RecommendationServiceImpl() {
         ruleHelper = new RuleHelper();
         userRepository = new UserRepositoryImpl();
     }
@@ -21,8 +22,12 @@ public class RecommendationImpl implements Recommendation {
     @Override
     public List<User> findMatch(User user, int top) throws ApplicationException {
         // first find closet age from store then apply other rules
-        //Taking min age as -1 from user's actual age and max age +2 user's age. this value can be configured
-        List<User> filteredUsers = userRepository.findUsersAgeBetween(user.getAge() - 1, user.getAge() + 2);
+        //Taking min age as -5 from user's actual age and max age user's age. this value can be configured
+        List<User> users = userRepository.findUsersAgeBetween(user.getAge() - 5, user.getAge());
+        //remove the asked user's profile
+        List<User> filteredUsers = users.stream()
+                .filter(u -> u.getUserId() != user.getUserId())
+                .collect(Collectors.toList());
         return ruleHelper.applyRules(user, filteredUsers, top);
 
     }

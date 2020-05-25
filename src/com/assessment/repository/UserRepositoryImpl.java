@@ -33,8 +33,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findUsersAgeBetween(int minAge, int maxAge) throws ApplicationException {
-        List<User> list = store.values().stream().filter(u -> u.getAge() <= maxAge ||
-                u.getAge() >= minAge).collect(Collectors.toList());
+        List<User> list = store.values().stream()
+                .filter(u -> u.getAge() >= minAge && u.getAge() <= maxAge)
+                .collect(Collectors.toList());
 
         return list;
     }
@@ -95,14 +96,6 @@ public class UserRepositoryImpl implements UserRepository {
         u5.setInterests(u5i);
         store.put(u5.getUserId(), u5);
 
-
-        //test data to be populated
-//        UserA     Female 25     Cricket
-//        UserB     Male 27     Cricket, Football, Movies
-//
-//        UserC     Male 26     Movies, Tennis, Football, Cricket
-//        UserD     Female 24     Tennis, Football, Badminton
-//        UserE     Female 32    Cricket, Football, Movies, Badminton
 
     }
 
